@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR 工作台 - AI 招聘系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="hr-body">
+  <div class="hr-layout">
+    <!-- 顶栏 -->
+    <header class="hr-header">
+      <div class="hr-header-left">
+        <a href="/" class="back-link">← 首页</a>
+        <h1>HR 工作台</h1>
+        <span class="hr-subtitle">AI 自动回复 · 会话管理 · 职位 Agent</span>
+      </div>
+      <div class="hr-header-actions">
+        <button id="btnNewJob" class="btn btn-primary">+ 新建职位 Agent</button>
+      </div>
+    </header>
+
+    <!-- 主导航 -->
+    <nav class="hr-nav">
+      <button class="hr-nav-item active" data-tab="inbox">📥 收件箱</button>
+      <button class="hr-nav-item" data-tab="jobs">🤖 职位 Agent</button>
+      <button class="hr-nav-item" data-tab="platform">📡 平台对接</button>
+    </nav>
+
+    <!-- ========== 收件箱（HR 主界面）========== -->
+    <section id="panel-inbox" class="hr-panel active">
+      <div class="inbox-toolbar">
+        <select id="filterJob"><option value="">全部职位</option></select>
+        <select id="filterStatus">
+          <option value="">全部状态</option>
+          <option value="WAITING_CANDIDATE">等待候选人回复</option>
+          <option value="FOLLOWED_UP_ONCE">已复聊跟进</option>
+          <option value="HUMAN_TAKEOVER">人工接管中</option>
+        </select>
+        <button id="btnRefreshSessions" class="btn btn-secondary btn-sm">刷新</button>
+      </div>
+
+      <div class="inbox-split">
+        <!-- 左侧：会话列表 -->
+        <div class="inbox-list" id="inboxList">
+          <p class="empty-hint inbox-empty">加载中...</p>
+        </div>
+
+        <!-- 右侧：会话详情 -->
+        <div class="inbox-detail" id="inboxDetail">
+          <div class="inbox-detail-empty">
+            <div class="empty-icon">📬</div>
+            <p>选择左侧会话，查看与候选人的完整往来</p>
+            <p class="empty-hint">AI Agent 代表您自动回复候选人消息</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 职位 Agent ========== -->
+    <section id="panel-jobs" class="hr-panel">
+      <div id="jobsList" class="jobs-grid"></div>
+    </section>
+
+    <!-- ========== 平台对接 ========== -->
+    <section id="panel-platform" class="hr-panel">
+      <div class="platform-docs">
+        <h2>Webhook 对接指南</h2>
+        <p class="doc-intro">候选人通过 Boss 直聘等平台发消息 → Webhook 推送到本系统 → AI Agent 自动替 HR 回复</p>
+        <div class="doc-block">
+          <h3>1. 通用 Webhook</h3>
+          <code>POST /api/chat/webhook</code>
+          <pre>{
+  "platform_uid": "boss_123",
+  "job_id": 1,
+  "message_content": "候选人发来的消息",
+  "candidate_name": "张三"
+}</pre>
+        </div>
+        <div class="doc-block">
+          <h3>2. Boss 直聘适配</h3>
+          <code>POST /api/platform/boss/webhook</code>
+          <pre>{
+  "event": "message",
+  "uid": "12345",
+  "job_id": "boss_job_xxx",
+  "content": "你好",
+  "name": "张三"
+}</pre>
+        </div>
+        <div class="doc-block">
+          <h3>3. RPA 自动化</h3>
+          <code>POST /api/platform/rpa/webhook</code>
+        </div>
+        <div class="doc-block">
+          <h3>4. 简历上传（HR 工作台内操作，或 API）</h3>
+          <code>POST /api/resume/upload/session/{session_id}</code>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 职位编辑弹窗 -->
+  <div id="jobModal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modalTitle">新建职位 Agent</h2>
+      <input type="hidden" id="editJobId">
+      <div class="form-group">
+        <label>职位名称</label>
+        <input id="jobTitle" type="text" placeholder="Python 后端工程师">
+      </div>
+      <div class="form-group">
+        <label>平台职位 ID（Boss 对接用，可选）</label>
+        <input id="jobPlatformId" type="text" placeholder="boss_job_xxx">
+      </div>
+      <div class="form-group">
+        <label>System Prompt（Agent 回复策略）</label>
+        <textarea id="jobPrompt" rows="8" placeholder="你是一位专业的招聘 HR，负责该岗位的候选人沟通..."></textarea>
+      </div>
+      <div class="form-group inline">
+        <label><input type="checkbox" id="jobActive" checked> 启用</label>
+      </div>
+      <div class="modal-actions">
+        <button id="btnCancelJob" class="btn btn-secondary">取消</button>
+        <button id="btnSaveJob" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/resume-render.js"></script>
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>

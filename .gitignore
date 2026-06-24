@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.local
+uploads/
+recruiter.db
+*.db
+
+# IDE / OS
+.idea/
+.vscode/
+.cursor/
+*.log
+Thumbs.db
+.DS_Store

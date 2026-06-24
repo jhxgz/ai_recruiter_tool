@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消息模拟器（仅测试）- AI 招聘系统</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="dev-banner">
+    ⚠️ 开发者测试工具：模拟<strong>候选人</strong>在 Boss 直聘等平台发消息，验证 HR Agent 自动回复逻辑。HR 日常使用请前往
+    <a href="/admin">HR 工作台</a>
+  </div>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="back-link">← 首页</a>
+        <h2>消息模拟器</h2>
+        <p class="sidebar-desc">扮演候选人，测试 Webhook 链路</p>
+      </div>
+
+      <div class="form-group">
+        <label>选择职位 Agent</label>
+        <select id="jobSelect"><option value="">加载中...</option></select>
+      </div>
+      <div class="form-group">
+        <label>候选人 UID（模拟）</label>
+        <input id="platformUid" type="text" placeholder="如 demo_user_001" value="demo_user_001">
+      </div>
+      <div class="form-group">
+        <label>候选人姓名（模拟）</label>
+        <input id="candidateName" type="text" placeholder="张三" value="张三">
+      </div>
+
+      <div class="session-info" id="sessionInfo">
+        <p><strong>Session ID:</strong> <span id="sessionId">-</span></p>
+        <p><strong>状态:</strong> <span id="sessionStatus" class="badge">-</span></p>
+      </div>
+
+      <div class="memory-panel">
+        <h3>会话记忆</h3>
+        <div id="memoryList" class="memory-list">
+          <p class="empty-hint">发送消息后显示历史记录</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="chat-main">
+      <div class="chat-header">
+        <h1 id="chatTitle">选择职位开始模拟</h1>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="welcome-msg">
+          <p>🧪 模拟候选人发送消息</p>
+          <p>HR Agent 将自动回复（与真实 Webhook 逻辑一致）</p>
+          <p class="empty-hint">简历上传请在 HR 工作台 → 会话详情中操作</p>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <textarea id="messageInput" rows="2" placeholder="输入模拟的候选人消息，Enter 发送..."></textarea>
+        <button id="sendBtn" class="btn btn-primary">发送</button>
+      </div>
+    </main>
+  </div>
+  <script src="/static/js/chat.js"></script>
+</body>
+</html>
