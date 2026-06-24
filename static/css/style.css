@@ -313,8 +313,113 @@ tr:hover { background: #f1f5f9; cursor: pointer; }
   overflow-y: auto;
 }
 .modal-lg { max-width: 720px; }
-.modal-content h2 { margin-bottom: 20px; }
+.modal-content h2 { margin-bottom: 16px; font-size: 1.15rem; }
 .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+
+/* 职位编辑弹窗：紧凑布局，底部一行操作 */
+.modal-job {
+  max-width: 520px;
+  padding: 20px 22px 18px;
+  max-height: min(88vh, 640px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.modal-job-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.modal-job .form-group { margin-bottom: 14px; }
+.modal-job .form-group-last { margin-bottom: 0; }
+.modal-job .form-group label { margin-bottom: 5px; }
+.modal-job textarea {
+  min-height: 120px;
+  max-height: 200px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.label-hint {
+  font-weight: 400;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.modal-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* 启用开关：与按钮同一行 */
+.job-active-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+}
+.job-active-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.job-active-toggle .toggle-track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: #cbd5e1;
+  border-radius: 999px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.job-active-toggle .toggle-track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  transition: transform 0.2s;
+}
+.job-active-toggle input:checked + .toggle-track {
+  background: var(--primary);
+}
+.job-active-toggle input:checked + .toggle-track::after {
+  transform: translateX(16px);
+}
+.job-active-toggle .toggle-text {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.job-active-toggle input:checked ~ .toggle-text {
+  color: var(--primary-dark);
+}
+
+.modal-footer .btn {
+  min-width: 72px;
+  padding: 8px 18px;
+}
 
 .detail-msg { padding: 8px 12px; margin-bottom: 8px; border-radius: 8px; font-size: 14px; }
 .detail-msg.user { background: var(--user-bg); }
